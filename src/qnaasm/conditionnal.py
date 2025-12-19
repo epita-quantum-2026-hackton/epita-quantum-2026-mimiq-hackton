@@ -1,4 +1,4 @@
-from classical_register import ClassicalRegister
+from src.utils.classical_register import ClassicalRegister
 
 class Conditional:
     def __init__(self, cl_reg: ClassicalRegister):
