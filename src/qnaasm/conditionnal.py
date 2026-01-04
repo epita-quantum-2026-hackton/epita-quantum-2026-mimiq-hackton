@@ -1,6 +1,6 @@
 from qnaasm import QNAasm
 
-from src.utils.classical_register import ClassicalRegister
+from utils.classical_register import ClassicalRegister
 
 
 class Conditional(QNAasm):
