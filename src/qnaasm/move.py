@@ -1,4 +1,4 @@
-from qnaasm import QNAasm
+from qnaasm.qnaasm import QNAasm
 
 from utils.position import Position
 
