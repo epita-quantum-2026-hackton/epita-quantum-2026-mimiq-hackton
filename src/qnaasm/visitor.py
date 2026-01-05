@@ -16,7 +16,8 @@ if TYPE_CHECKING:
 
 class Visitor(ABC):
     def visit_block(self, e: "Block"):
-        e.QNAasm.accept(self)
+        for instruction in e.instructions:
+            instruction.accept(self)
 
     def visit_calloc(self, e: "Calloc"):
         pass

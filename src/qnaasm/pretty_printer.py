@@ -15,43 +15,48 @@ from qnaasm.visitor import Visitor
 
 
 class PrettyPrinter(Visitor):
+    def __init__(self):
+        self.level = 0
+
     def visit_block(self, e: "Block"):
-        print("{")
+        print(' ' * self.level, "{", sep='')
+        self.level += 2
         super().visit_block(e)
-        print("}")
+        self.level -= 2
+        print(' ' * self.level, "}", sep='')
 
     def visit_calloc(self, e: "Calloc"):
-        print(f"calloc {e.name} [{e.size}]")
+        print(' ' * self.level, f"calloc {e.name} [{e.size}]", sep='')
 
     def visit_conditional(self, e: "Conditional"):
-        print(f"if {e.classical_register} then {{}}")
+        print(' ' * self.level, f"if {e.classical_register} then {{}}", sep='')
 
     def visit_gate(self, e: "Gate"):
-        print(f"{e.name} ", end="")
+        print(' ' * self.level, f"{e.name} ", end="", sep='')
         for target in e.targets[:-1]:
-            print(f"{target},", end="")
-        print(f"{e.targets[-1]}")
+            print(' ' * self.level, f"{target},", end="", sep='')
+        print(' ' * self.level, f"{e.targets[-1]}", sep='')
 
     def visit_measure(self, e: "Measure"):
-        print("measure ", end="")
+        print(' ' * self.level, "measure ", end="", sep='')
         for target in e.targets[:-1]:
-            print(f"{target},", end="")
-        print(f"{e.targets[-1]} to {e.creg}")
+            print(' ' * self.level, f"{target},", end="", sep='')
+        print(' ' * self.level, f"{e.targets[-1]} to {e.creg}", sep='')
 
     def visit_move(self, e: "Move"):
-        print(f"move {e.start} to {e.end}")
+        print(' ' * self.level, f"move {e.start} to {e.end}", sep='')
 
     def visit_qalloc(self, e: "Qalloc"):
-        print("qalloc ", end="")
+        print(' ' * self.level, "qalloc ", end="", sep='')
         for target in e.targets[:-1]:
-            print(f"{target},", end="")
-        print(f"{e.targets[-1]}")
+            print(' ' * self.level, f"{target},", end="", sep='')
+        print(' ' * self.level, f"{e.targets[-1]}", sep='')
 
     def visit_qfree(self, e: "Qfree"):
-        print("qfree ", end="")
+        print(' ' * self.level, "qfree ", end="", sep='')
         for target in e.targets[:-1]:
-            print(f"{target},", end="")
-        print(f"{e.targets[-1]}")
+            print(' ' * self.level, f"{target},", end="", sep='')
+        print(' ' * self.level, f"{e.targets[-1]}", sep='')
 
     def visit_qnaasm(self, e: "QNAasm"):
         super().visit_qnaasm(e)

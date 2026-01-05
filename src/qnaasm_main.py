@@ -27,7 +27,9 @@ program = [
         ]
     ),
     Gate("H", [Position(0, 0)]),
-    Move(Position(0, 0), Position(0, 4)),
+    Block(
+        [Move(Position(0, i), Position(0, i + 1)) for i in range(4)],
+    ),
     Gate(
         "CX",
         [
@@ -35,7 +37,9 @@ program = [
             Position(0, 5),
         ],
     ),
-    Move(Position(0, 4), Position(0, 0)),
+    Block(
+        [Move(Position(0, i), Position(0, i - 1)) for i in range(4, 0, -1)],
+    ),
     Measure(
         [
             Position(0, 0),

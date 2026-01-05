@@ -7,8 +7,8 @@ if TYPE_CHECKING:
 
 
 class Block(QNAasm):
-    def __init__(self, QNAasm: QNAasm):
-        self.QNAasm = QNAasm
+    def __init__(self, instructions: list[QNAasm]):
+        self.instructions = instructions
 
     def accept(self, visitor: "Visitor"):
         visitor.visit_block(self)
