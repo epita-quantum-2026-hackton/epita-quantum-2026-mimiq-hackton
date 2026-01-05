@@ -47,6 +47,7 @@ program = [
         ],
         ClassicalRegister("c"),
     ),
+    Conditional(ClassicalRegister("c", 0), 1, Gate("X", [Position(0, 0)])),
     Qfree(
         [
             Position(0, 0),

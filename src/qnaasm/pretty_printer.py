@@ -29,7 +29,10 @@ class PrettyPrinter(Visitor):
         print(' ' * self.level, f"calloc {e.name} [{e.size}]", sep='')
 
     def visit_conditional(self, e: "Conditional"):
-        print(' ' * self.level, f"if {e.classical_register} then {{}}", sep='')
+        print(' ' * self.level, f"if {e.creg} = {e.value} then", sep='')
+        self.level += 2
+        super().visit_qnaasm(e.instruction)
+        self.level -= 2
 
     def visit_gate(self, e: "Gate"):
         print(' ' * self.level, f"{e.name} ", end="", sep='')

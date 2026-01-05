@@ -9,8 +9,10 @@ if TYPE_CHECKING:
 
 
 class Conditional(QNAasm):
-    def __init__(self, cl_reg: ClassicalRegister):
-        self.classical_register = cl_reg
+    def __init__(self, creg: ClassicalRegister, value: int, instruction: QNAasm):
+        self.creg = creg
+        self.value = value
+        self.instruction = instruction
 
     def accept(self, visitor: "Visitor"):
         visitor.visit_conditional(self)
