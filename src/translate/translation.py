@@ -34,6 +34,43 @@ def calculate_moves(q1: Position, q2: Position) -> list[Position]:
     return [(positions[i], positions[i + 1]) for i in range(len(positions) - 2)]
 
 
+def remove_useless_moves(instructions: list[QNAasm], idx: int) -> list[QNAasm]:
+    current: Move = instructions[idx]
+    next: Move = instructions[idx + 1]
+
+    if (
+        current.start.x == next.end.x
+        and current.start.y == next.end.y
+        and current.end.x == next.start.x
+        and current.end.y == next.start.y
+    ):
+        return instructions[:idx] + instructions[idx + 2 :], max(0, idx - 1)
+
+    return instructions, idx + 1
+
+
+def optimize(instructions: list[QNAasm]) -> list[QNAasm]:
+    idx = 0
+    while idx < len(instructions):
+        current = instructions[idx]
+        if isinstance(current, Move):
+            if idx + 1 >= len(instructions):
+                idx += 1
+                continue
+
+            next = instructions[idx + 1]
+            if not isinstance(next, Move):
+                idx += 1
+                continue
+
+            instructions, idx = remove_useless_moves(instructions, idx)
+
+        else:
+            idx += 1
+
+    return instructions
+
+
 def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
     instrs = []
 
@@ -67,4 +104,6 @@ def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
     for position in qubits.values():
         instrs.append(Qfree([position]))
 
-    return instrs
+    optimized_instrs = optimize(instrs)
+
+    return optimized_instrs
