@@ -10,11 +10,13 @@ from qnaasm.pretty_printer import PrettyPrinter
 c = Circuit()
 c.push(GateH(), 0)
 c.push(GateCX(), 0, 1)
+c.push(GateCX(), 0, 2)
 c.draw()
 
 qubits = {
     0: Position(0, 0),
-    1: Position(0, 5),
+    1: Position(3, 0),
+    2: Position(3, 3),
 }
 
 instructions = translate(c, qubits)
