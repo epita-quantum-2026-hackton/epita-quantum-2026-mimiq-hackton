@@ -13,7 +13,7 @@ It will output the file `[circuit-name]-corrected.pb`.
 
 Available gates: H, X, Z, CX, SWAP, T, Measure.
 
-Note: the T gate is not functional yet.
+Note: the T gate is approximately working, but it shouldn't.
 
 Circuit execution:
 After creating the corrected circuit, run

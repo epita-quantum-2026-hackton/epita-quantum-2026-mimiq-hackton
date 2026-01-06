@@ -155,37 +155,43 @@ end
 
 function logical_t(c, l_target, nb_qubits)
     """
-    "Mauvais t" mais le prof a dit isok
+    Apply a logical T gate.
+    For now, the method used is very simple: apply T gate on the middle data qubit.
+    It strangly works...
+
+    Tests have been made for H T H (measure ~85% |0>), and H T T T T H (= H Z H) (measure 100% |1>)
     """
     data_qubits, _, _ = logical_indexes(l_target)
 
-    t_qubits, t_bits = logical_indexes_t(nb_qubits)
-    # Prepare t qubits (H + T)
-    push!(c, GateH(), t_qubits[1:9])
-    push!(c, GateT(), t_qubits[1:9])
-    auxilliary = t_qubits[10]
+    push!(c, GateT(), data_qubits[5])
+
+    # t_qubits, t_bits = logical_indexes_t(nb_qubits)
+    # # Prepare t qubits (H + T)
+    # push!(c, GateH(), t_qubits[1:9])
+    # push!(c, GateT(), t_qubits[1:9])
+    # auxilliary = t_qubits[10]
     
-    # For each data_qubit
-    for (data_qubit, t_qubit) in zip(data_qubits, t_qubits)
-        # Use teleportation between data_qubit and t_qubit, with auxilliary
-        # Reset auxilliary
-        push!(c, Reset(), [t_qubit, auxilliary])
+    # # For each data_qubit
+    # for (data_qubit, t_qubit) in zip(data_qubits, t_qubits)
+    #     # Use teleportation between data_qubit and t_qubit, with auxilliary
+    #     # Reset auxilliary
+    #     push!(c, Reset(), [t_qubit, auxilliary])
 
-        # Do the quantum teleportation circuit but with H+T instead of |0>
-        push!(c, GateH(), auxilliary)
-        push!(c, GateCX(), auxilliary, t_qubit)
-        push!(c, GateCX(), data_qubit, auxilliary)
-        push!(c, GateH(), data_qubit)
+    #     # Do the quantum teleportation circuit but with H+T instead of |0>
+    #     push!(c, GateH(), auxilliary)
+    #     push!(c, GateCX(), auxilliary, t_qubit)
+    #     push!(c, GateCX(), data_qubit, auxilliary)
+    #     push!(c, GateH(), data_qubit)
 
-        # Measure auxilliary and data qubit
-        push!(c, Measure(), [auxilliary, data_qubit], t_bits)
+    #     # Measure auxilliary and data qubit
+    #     push!(c, Measure(), [auxilliary, data_qubit], t_bits)
 
-        push!(c, IfStatement(GateX(), BitString("1")), t_qubit, t_bits[1])
-        push!(c, IfStatement(GateZ(), BitString("1")), t_qubit, t_bits[2])
+    #     push!(c, IfStatement(GateX(), BitString("1")), t_qubit, t_bits[1])
+    #     push!(c, IfStatement(GateZ(), BitString("1")), t_qubit, t_bits[2])
 
-        # Swap to get result in data_qubit
-        push!(c, GateSWAP(), data_qubit, t_qubit)
-    end
+    #     # Swap to get result in data_qubit
+    #     push!(c, GateSWAP(), data_qubit, t_qubit)
+    # end
 end
 
 function logical_swap(c, l_target1, l_target2)
