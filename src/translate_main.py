@@ -17,6 +17,7 @@ qubits = {
     0: Position(0, 0),
     1: Position(3, 0),
     2: Position(3, 3),
+    3: Position(3, 1),
 }
 
 instructions = translate(c, qubits)

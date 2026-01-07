@@ -17,8 +17,31 @@ from qnaasm.nodes import (
 from utils.position import Position
 
 
-def move_aside(m1:  tuple[Position, Position], m2: Optional[tuple[Position, Position]]):
-    pass
+def move_aside(
+    m1: tuple[Position, Position], m2: Optional[tuple[Position, Position]]
+) -> tuple[Position, Position]:
+    current = m1[0]
+    wanted = m1[1]
+    if m2 is None:
+        flee_from_x = wanted.x - current.x
+        flee_from_y = wanted.y - current.y
+        return Position(wanted.x, wanted.y), Position(
+            wanted.x + flee_from_x, wanted.y + flee_from_y
+        )
+
+    assert wanted == m2[0]
+    future = m2[1]
+    if current.x == future.x:
+        return Position(wanted.x, wanted.y), Position(wanted.x + 1, wanted.y)
+
+    if current.y == future.y:
+        return Position(wanted.x, wanted.y), Position(wanted.x, wanted.y + 1)
+
+    flee_from_x = wanted.x - future.x
+    flee_from_y = wanted.y - future.y
+    return Position(wanted.x, wanted.y), Position(
+        wanted.x + flee_from_x, wanted.y + flee_from_y
+    )
 
 
 def calculate_moves(
@@ -45,7 +68,9 @@ def calculate_moves(
     for i, move in enumerate(ideal_moves):
         if move[1] in qubits.values():
             moves.append(
-                move_aside(move, i < len(ideal_moves) and ideal_moves[i] or None)
+                move_aside(
+                    move, i + 1 < len(ideal_moves) and ideal_moves[i + 1] or None
+                )
             )
         moves.append(move)
 
