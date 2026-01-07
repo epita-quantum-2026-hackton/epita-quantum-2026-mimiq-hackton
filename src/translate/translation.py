@@ -18,7 +18,7 @@ from utils.position import Position
 def calculate_moves(q1: Position, q2: Position) -> list[Position]:
     positions = [q1]
     last = Position(q1.x, q1.y)
-    while last.x != q2.x or last.y != q2.y:
+    while last != q2:
         if last.x < q2.x:
             last.x += 1
         elif last.x > q2.x:
@@ -31,19 +31,24 @@ def calculate_moves(q1: Position, q2: Position) -> list[Position]:
         positions.append(last)
         last = Position(last.x, last.y)
 
-    return [(positions[i], positions[i + 1]) for i in range(len(positions) - 2)]
+    ideal_moves = [(positions[i], positions[i + 1]) for i in range(len(positions) - 2)]
+    moves = []
+
+    for i, move in enumerate(ideal_moves):
+        if move[1] in qubits.values():
+            moves.append(
+                move_aside(move, i < len(ideal_moves) and ideal_moves[i] or None)
+            )
+        moves.append(move)
+
+    return moves
 
 
 def remove_useless_moves(instructions: list[QNAasm], idx: int) -> list[QNAasm]:
     current: Move = instructions[idx]
     next: Move = instructions[idx + 1]
 
-    if (
-        current.start.x == next.end.x
-        and current.start.y == next.end.y
-        and current.end.x == next.start.x
-        and current.end.y == next.start.y
-    ):
+    if current.start == next.end and current.end == next.start:
         return instructions[:idx] + instructions[idx + 2 :], max(0, idx - 1)
 
     return instructions, idx + 1
