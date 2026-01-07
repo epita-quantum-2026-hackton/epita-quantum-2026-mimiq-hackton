@@ -1,3 +1,5 @@
+from typing import Optional
+
 from mimiqcircuits import Circuit, Instruction, Operation
 
 from qnaasm.nodes import (
@@ -15,7 +17,13 @@ from qnaasm.nodes import (
 from utils.position import Position
 
 
-def calculate_moves(q1: Position, q2: Position) -> list[Position]:
+def move_aside(m1:  tuple[Position, Position], m2: Optional[tuple[Position, Position]]):
+    pass
+
+
+def calculate_moves(
+    q1: Position, q2: Position, qubits: dict[int, Position]
+) -> list[Position]:
     positions = [q1]
     last = Position(q1.x, q1.y)
     while last != q2:
@@ -93,7 +101,7 @@ def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
             instrs.append(Gate(gate, [used_qubits[0][1]]))
 
         elif order == 2:
-            moves = calculate_moves(used_qubits[0][1], used_qubits[1][1])
+            moves = calculate_moves(used_qubits[0][1], used_qubits[1][1], qubits)
 
             for p1, p2 in moves:
                 instrs.append(Move(p1, p2))
