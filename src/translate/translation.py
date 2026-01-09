@@ -1,6 +1,12 @@
 from typing import Optional
 
-from mimiqcircuits import Circuit, Instruction, Operation, Measure as MimiqMeasure
+from mimiqcircuits import (
+    Circuit,
+    Instruction,
+    Operation,
+    Measure as MimiqMeasure,
+    IfStatement,
+)
 
 from qnaasm.nodes import (
     Block,
@@ -119,6 +125,60 @@ def calculate_creg_size(c: Circuit) -> int:
     )
 
 
+def translate_instruction(
+    instr: Instruction, qubits: dict[int, Position]
+) -> Optional[list[QNAasm]]:
+    instrs = []
+
+    used_qubits = [(q, qubits[q]) for q in instr.get_qubits()]
+    operation: Operation = instr.get_operation()
+    gate = str(operation)
+    order = len(used_qubits)
+
+    if isinstance(operation, MimiqMeasure):
+        instrs.append(
+            Measure([used_qubits[0][1]], ClassicalRegister("c", instr.get_bits()[0]))
+        )
+
+    elif isinstance(operation, IfStatement):
+        if_statement: IfStatement = operation
+        operation: Operation = if_statement.get_operation()
+        gate = str(operation)
+
+        inner_instr = Instruction(operation, instr.get_qubits())
+        res = translate_instruction(inner_instr, qubits)
+
+        if len(res) == 1:
+            res = res[0]
+
+        else:
+            res = Block(res)
+
+        for bit, value in zip(instr.get_bits(), if_statement.get_bitstring().bits):
+            res = Conditional(ClassicalRegister("c", bit), value, res)
+
+        instrs.append(res)
+
+    elif order == 1:
+        instrs.append(Gate(gate, [used_qubits[0][1]]))
+
+    elif order == 2:
+        moves = calculate_moves(used_qubits[0][1], used_qubits[1][1], qubits)
+
+        for p1, p2 in moves:
+            instrs.append(Move(p1, p2))
+
+        instrs.append(Gate(gate, [moves[-1][1], used_qubits[1][1]]))
+
+        for p2, p1 in moves[::-1]:
+            instrs.append(Move(p1, p2))
+
+    else:
+        return None
+
+    return instrs
+
+
 def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
     instrs = []
 
@@ -129,35 +189,11 @@ def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
         instrs.append(Qalloc([position]))
 
     for instr in c.instructions:
-        instr: Instruction
-        used_qubits = [(q, qubits[q]) for q in instr.get_qubits()]
-        operation: Operation = instr.get_operation()
-        gate = str(operation)
-        order = len(used_qubits)
-
-        if isinstance(operation, MimiqMeasure):
-            instrs.append(
-                Measure(
-                    [used_qubits[0][1]], ClassicalRegister("c", instr.get_bits()[0])
-                )
-            )
-
-        elif order == 1:
-            instrs.append(Gate(gate, [used_qubits[0][1]]))
-
-        elif order == 2:
-            moves = calculate_moves(used_qubits[0][1], used_qubits[1][1], qubits)
-
-            for p1, p2 in moves:
-                instrs.append(Move(p1, p2))
-
-            instrs.append(Gate(gate, [moves[-1][1], used_qubits[1][1]]))
-
-            for p2, p1 in moves[::-1]:
-                instrs.append(Move(p1, p2))
-
-        else:
+        translated_instr = translate_instruction(instr, qubits)
+        if translated_instr is None:
             return []
+
+        instrs.extend(translated_instr)
 
     for position in qubits.values():
         instrs.append(Qfree([position]))

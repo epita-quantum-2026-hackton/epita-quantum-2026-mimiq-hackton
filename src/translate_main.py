@@ -1,6 +1,6 @@
 from translate.translation import translate
 
-from mimiqcircuits import Circuit, GateH, GateCX, Measure
+from mimiqcircuits import Circuit, GateH, GateX, GateCX, Measure, IfStatement, BitString
 
 from utils.position import Position
 
@@ -13,7 +13,8 @@ c.push(GateCX(), 0, 1)
 c.push(GateCX(), 0, 2)
 c.push(Measure(), [0, 1, 2], [0, 1, 2])
 c.push(GateH(), 3)
-c.push(Measure(), 3, 2)
+c.push(Measure(), 3, 3)
+c.push(IfStatement(GateCX(), BitString("01")), *[1, 2], *[3, 1])
 c.draw()
 
 qubits = {
