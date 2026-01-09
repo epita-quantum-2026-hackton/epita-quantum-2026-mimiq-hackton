@@ -1,6 +1,6 @@
 from translate.translation import translate
 
-from mimiqcircuits import Circuit, GateH, GateCX
+from mimiqcircuits import Circuit, GateH, GateCX, Measure
 
 from utils.position import Position
 
@@ -11,6 +11,9 @@ c = Circuit()
 c.push(GateH(), 0)
 c.push(GateCX(), 0, 1)
 c.push(GateCX(), 0, 2)
+c.push(Measure(), [0, 1, 2], [0, 1, 2])
+c.push(GateH(), 3)
+c.push(Measure(), 3, 2)
 c.draw()
 
 qubits = {

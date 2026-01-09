@@ -1,6 +1,6 @@
 from typing import Optional
 
-from mimiqcircuits import Circuit, Instruction, Operation
+from mimiqcircuits import Circuit, Instruction, Operation, Measure as MimiqMeasure
 
 from qnaasm.nodes import (
     Block,
@@ -14,6 +14,7 @@ from qnaasm.nodes import (
     QNAasm,
 )
 
+from utils.classical_register import ClassicalRegister
 from utils.position import Position
 
 
@@ -105,8 +106,24 @@ def optimize(instructions: list[QNAasm]) -> list[QNAasm]:
     return instructions
 
 
+def calculate_creg_size(c: Circuit) -> int:
+    return (
+        max(
+            [
+                max(instr.get_bits())
+                for instr in c.instructions
+                if isinstance(instr.get_operation(), MimiqMeasure)
+            ]
+        )
+        + 1
+    )
+
+
 def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
     instrs = []
+
+    creg_size = calculate_creg_size(c)
+    instrs.append(Calloc("c", creg_size))
 
     for position in qubits.values():
         instrs.append(Qalloc([position]))
@@ -118,7 +135,14 @@ def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
         gate = str(operation)
         order = len(used_qubits)
 
-        if order == 1:
+        if isinstance(operation, MimiqMeasure):
+            instrs.append(
+                Measure(
+                    [used_qubits[0][1]], ClassicalRegister("c", instr.get_bits()[0])
+                )
+            )
+
+        elif order == 1:
             instrs.append(Gate(gate, [used_qubits[0][1]]))
 
         elif order == 2:
