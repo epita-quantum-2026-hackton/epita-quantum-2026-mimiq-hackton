@@ -11,3 +11,9 @@ class Position:
 
     def __repr__(self) -> str:
         return f"{{{self.x},{self.y}}}"
+
+    def clone(self) -> Self:
+        return Position(self.x, self.y)
+
+    def translated(self, dx: int, dy: int) -> Self:
+        return Position(self.x + dx, self.y + dy)

@@ -25,30 +25,26 @@ def move_aside(
     if m2 is None:
         flee_from_x = wanted.x - current.x
         flee_from_y = wanted.y - current.y
-        return Position(wanted.x, wanted.y), Position(
-            wanted.x + flee_from_x, wanted.y + flee_from_y
-        )
+        return wanted.clone(), wanted.translated(flee_from_x, flee_from_y)
 
     assert wanted == m2[0]
     future = m2[1]
     if current.x == future.x:
-        return Position(wanted.x, wanted.y), Position(wanted.x + 1, wanted.y)
+        return wanted.clone(), wanted.translated(1, 0)
 
     if current.y == future.y:
-        return Position(wanted.x, wanted.y), Position(wanted.x, wanted.y + 1)
+        return wanted.clone(), wanted.translated(0, 1)
 
     flee_from_x = wanted.x - future.x
     flee_from_y = wanted.y - future.y
-    return Position(wanted.x, wanted.y), Position(
-        wanted.x + flee_from_x, wanted.y + flee_from_y
-    )
+    return wanted.clone(), wanted.translated(flee_from_x, flee_from_y)
 
 
 def calculate_moves(
     q1: Position, q2: Position, qubits: dict[int, Position]
 ) -> list[Position]:
     positions = [q1]
-    last = Position(q1.x, q1.y)
+    last = q1.clone()
     while last != q2:
         if last.x < q2.x:
             last.x += 1
@@ -60,7 +56,7 @@ def calculate_moves(
             last.y -= 1
 
         positions.append(last)
-        last = Position(last.x, last.y)
+        last = last.clone()
 
     ideal_moves = [(positions[i], positions[i + 1]) for i in range(len(positions) - 2)]
     moves = []
