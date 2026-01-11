@@ -26,7 +26,7 @@ class PrettyPrinter(Visitor):
         print(' ' * self.level, "}", sep='')
 
     def visit_calloc(self, e: "Calloc"):
-        print(' ' * self.level, f"calloc {e.name} [{e.size}]", sep='')
+        print(' ' * self.level, f"calloc {e.name}[{e.size}]", sep='')
 
     def visit_conditional(self, e: "Conditional"):
         print(' ' * self.level, f"if {e.creg} = {e.value} then", sep='')
