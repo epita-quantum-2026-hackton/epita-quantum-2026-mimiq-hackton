@@ -7,5 +7,9 @@ if TYPE_CHECKING:
 
 
 class QNAasm(ABC):
+    """
+    Base class to represent QNAasm instructions.
+    """
+
     def accept(self, visitor: "Visitor"):
         pass

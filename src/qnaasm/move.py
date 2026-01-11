@@ -9,7 +9,18 @@ if TYPE_CHECKING:
 
 
 class Move(QNAasm):
+    """
+    Move a qubit from a position to another.
+    """
+
     def __init__(self, start: Position, end: Position):
+        """
+        Construct a Move.
+
+        Parameters:
+        - start: the initial position of the qubit.
+        - end: the new position of the qubit.
+        """
         self.start = start
         self.end = end
 

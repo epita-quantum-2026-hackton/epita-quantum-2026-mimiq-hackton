@@ -10,7 +10,18 @@ if TYPE_CHECKING:
 
 
 class Measure(QNAasm):
+    """
+    Perform a measure on qubits inside a classical register.
+    """
+
     def __init__(self, targets: list[Position], creg: ClassicalRegister):
+        """
+        Construct a Measure.
+
+        Parameters:
+        - targets: positions of the qubits to measure.
+        - creg: the classical register inside which to store the result of the measure.
+        """
         self.targets = targets
         self.creg = creg
 

@@ -7,7 +7,18 @@ if TYPE_CHECKING:
 
 
 class Calloc(QNAasm):
+    """
+    Allocate a classical register that can be used to measure qubits.
+    """
+
     def __init__(self, name: str, size: int):
+        """
+        Construct a Calloc.
+
+        Parameters:
+        - name: the name of the register.
+        - size: the size of the register.
+        """
         self.name = name
         self.size = size
 

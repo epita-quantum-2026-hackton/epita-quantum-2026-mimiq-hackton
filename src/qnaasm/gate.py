@@ -9,7 +9,18 @@ if TYPE_CHECKING:
 
 
 class Gate(QNAasm):
+    """
+    Represent a gate that can accept one or multiple qubits.
+    """
+
     def __init__(self, name: str, targets: list[Position]):
+        """
+        Construct a Gate.
+
+        Parameters:
+        - name: the name of the gate.
+        - targets: the positions of the qubits on which to apply the gate.
+        """
         self.name = name
         self.targets = targets
 

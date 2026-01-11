@@ -15,6 +15,10 @@ from qnaasm.visitor import Visitor
 
 
 class PrettyPrinter(Visitor):
+    """
+    A visitor to display QNAasm instructions.
+    """
+
     def __init__(self):
         self.level = 0
 

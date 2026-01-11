@@ -9,7 +9,17 @@ if TYPE_CHECKING:
 
 
 class Qalloc(QNAasm):
+    """
+    Allocate qubits on the QPU grid.
+    """
+
     def __init__(self, targets: list[Position]):
+        """
+        Construct a Qalloc.
+
+        Parameters:
+        - targets: positions where a qubit must be allocated.
+        """
         self.targets = targets
 
     def accept(self, visitor: "Visitor"):

@@ -9,7 +9,19 @@ if TYPE_CHECKING:
 
 
 class Conditional(QNAasm):
+    """
+    Execute an instruction whether the value of a classical register matches a given value.
+    """
+
     def __init__(self, creg: ClassicalRegister, value: int, instruction: QNAasm):
+        """
+        Construct a Conditional.
+
+        Parameters:
+        - creg: the classical register to test.
+        - value: the value to match the register against.
+        - instruction: the instruction to execute on match.
+        """
         self.creg = creg
         self.value = value
         self.instruction = instruction
