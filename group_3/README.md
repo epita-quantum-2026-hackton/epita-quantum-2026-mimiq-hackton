@@ -11,9 +11,25 @@ $ julia correct_circuit.jl ghz.pb
 ```
 It will output the file `[circuit-name]-corrected.pb`.
 
-Available gates: H, X, Z, CX, SWAP, T, Measure.
+You can generate a ghz circuit of 2 qubits with:
+```jl
+$ julia create_ghz.jl
+       ┌─┐   ┌─┐
+q[1]: ╶┤H├─●─┤M├───╴
+       └─┘┌┴┐└╥┘┌─┐
+q[2]: ╶───┤X├─╫─┤M├╴
+          └─┘ ║ └╥┘
+              ║  ║
+c:    ════════╩══╩═
+              1  2
+
+Created file ghz.pb
+```
+
+**Available gates: H, X, Z, CX, SWAP, T, Measure.**
 
 Note: the T gate is approximately working, but it shouldn't.
+Note 2: every gate must be single qubit (except CX) (for example, a Measure will be on qubit n and bit n, but not ranges of qubits like n:m to bits n:m).
 
 Circuit execution:
 After creating the corrected circuit, run
