@@ -6,6 +6,7 @@ from mimiqcircuits import (
     Operation,
     Measure as MimiqMeasure,
     IfStatement,
+    Reset,
 )
 
 from qnaasm.nodes import (
@@ -140,6 +141,16 @@ def translate_instruction(
             Measure([used_qubits[0][1]], ClassicalRegister("c", instr.get_bits()[0]))
         )
 
+    elif isinstance(operation, Reset):
+        at = used_qubits[0][1]
+        instrs.extend(
+            [
+                Measure([at], ClassicalRegister("drop")),
+                Qfree([at]),
+                Qalloc([at]),
+            ]
+        )
+
     elif isinstance(operation, IfStatement):
         if_statement: IfStatement = operation
         operation: Operation = if_statement.get_operation()
@@ -184,6 +195,7 @@ def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
 
     creg_size = calculate_creg_size(c)
     instrs.append(Calloc("c", creg_size))
+    instrs.append(Calloc("drop", 1))
 
     for position in qubits.values():
         instrs.append(Qalloc([position]))
