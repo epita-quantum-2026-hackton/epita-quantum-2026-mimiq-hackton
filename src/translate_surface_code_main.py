@@ -5,8 +5,11 @@ from mimiqcircuits import Circuit
 
 from qnaasm.pretty_printer import PrettyPrinter
 
+import os
 
-c = Circuit.loadproto("./ghz-corrected.pb")
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+c = Circuit.loadproto(f"{dir_path}/circuits/ghz-corrected.pb")
 
 qubits = create_all_surface_code_mapping_for_circuit(c)
 print("#" * 40)
