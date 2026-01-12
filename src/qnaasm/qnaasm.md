@@ -547,7 +547,7 @@ QNAasm
 |-|-|-|
 |.|.|*No attributes*|
 
-The class is very basic a just inherits from `ABC` metaclass and has an `accept` method to accept visitors.
+The class is very basic and just inherits from `ABC` metaclass and has an `accept` method to accept visitors.
 
 ### Class signature
 

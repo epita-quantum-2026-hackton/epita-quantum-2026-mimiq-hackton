@@ -15,7 +15,7 @@ The members of the Backend team are:
 - REHS Clément
 - VIGNERON Loïc
 
-The **group leader** is Lous-Maël DERVAL.
+The **group leader** is Louis-Maël DERVAL.
 
 # Specifications
 The **Backend** team was essentially in charge of sections "**3.4 Physical Mapping to a Neutral-Atom Architecture**" and "**3.5 Hardware Instruction Generation**" of the specifications.
@@ -55,7 +55,7 @@ We receive the different gates applied on physical qubits from the QEC layer. We
 Finally, we want to generate hardware instructions in an easy to read and parse format so that the device does not have much work to apply them.
 
 # Modules
-Each module has its own documentation file (`module.md`, with `module` beeing the name of the module). Please refer to them for more detail.
+Each module has its own documentation file (`module.md`, with `module` being the name of the module). Please refer to them for more detail.
 
 The **Backend** team worked on the following modules
 - `qnaasm`
