@@ -1,8 +1,7 @@
 from typing import TYPE_CHECKING
 
 from qnaasm.qnaasm import QNAasm
-
-from utils.classical_register import ClassicalRegister
+from qnaasm.classical_register import ClassicalRegister
 
 if TYPE_CHECKING:
     from qnaasm.visitor import Visitor

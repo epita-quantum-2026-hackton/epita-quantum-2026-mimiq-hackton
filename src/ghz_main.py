@@ -2,8 +2,7 @@ from translate.translation import translate
 
 from mimiqcircuits import Circuit
 
-from utils.position import Position
-
+from qnaasm.position import Position
 from qnaasm.pretty_printer import PrettyPrinter
 
 import os

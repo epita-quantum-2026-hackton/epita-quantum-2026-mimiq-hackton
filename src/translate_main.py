@@ -1,9 +1,8 @@
 from translate.translation import translate
 
-from mimiqcircuits import Circuit, GateH, GateX, GateCX, Measure, IfStatement, BitString
+from mimiqcircuits import Circuit, GateH, GateCX, Measure, IfStatement, BitString
 
-from utils.position import Position
-
+from qnaasm.position import Position
 from qnaasm.pretty_printer import PrettyPrinter
 
 

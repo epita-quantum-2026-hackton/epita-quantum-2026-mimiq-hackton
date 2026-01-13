@@ -21,8 +21,8 @@ from qnaasm.nodes import (
     QNAasm,
 )
 
-from utils.classical_register import ClassicalRegister
-from utils.position import Position
+from qnaasm.classical_register import ClassicalRegister
+from qnaasm.position import Position
 
 
 def move_aside(

@@ -1,6 +1,6 @@
 from mimiqcircuits import Circuit
 
-from utils.position import Position
+from qnaasm.position import Position
 
 from math import ceil, sqrt
 
