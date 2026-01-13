@@ -7,7 +7,6 @@ from qnaasm.nodes import (
     Move,
     Qalloc,
     Qfree,
-    QNAasm,
 )
 
 from qnaasm.classical_register import ClassicalRegister
