@@ -6,6 +6,13 @@ from math import ceil, sqrt
 
 
 def create_surface_code_mapping(qubit: int, position: Position) -> dict[int, Position]:
+    """
+    Physically map a surface code for a given qubit to a specific position.
+
+    Parameters:
+    - qubit: the corresponding qubit in the inital MimiQ circuit.
+    - position: the position of the first qubit of the surface code.
+    """
     return {
         qubit: position.clone(),
         qubit + 1: position.translated(-2, 0),
@@ -28,6 +35,12 @@ def create_surface_code_mapping(qubit: int, position: Position) -> dict[int, Pos
 
 
 def create_all_surface_code_mapping(qubits_count: int) -> dict[int, Position]:
+    """
+    Create a full surface code mapping for a specified number of qubits.
+
+    Parameters:
+    - qubits_count: the number of qubits inside the whole MimiQ circuit.
+    """
     logical_qubits_count = qubits_count // 17
     square_size = ceil(sqrt(logical_qubits_count))
 
@@ -41,4 +54,11 @@ def create_all_surface_code_mapping(qubits_count: int) -> dict[int, Position]:
 
 
 def create_all_surface_code_mapping_for_circuit(c: Circuit) -> dict[int, Position]:
+    """
+    Create a full surface code mapping for a given MimiQ circuit.
+
+    Parameters:
+    - c: the MimiQ circuit on which we want to map surface codes to positions
+    on the QPU grid.
+    """
     return create_all_surface_code_mapping(c.num_qubits())
