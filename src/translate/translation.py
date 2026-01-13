@@ -28,6 +28,17 @@ from qnaasm.position import Position
 def move_aside(
     m1: tuple[Position, Position], m2: Optional[tuple[Position, Position]]
 ) -> tuple[Position, Position]:
+    """
+    Move an obstacle qubit aside.
+
+    It computes the path followed by a qubit and move the qubit in the middle
+    to a position aside from this path.
+
+    Parameters:
+    - m1: the first move in the path.
+    - m2: the second move in the path, may be ommitted if the move is the last
+    of the path.
+    """
     current = m1[0]
     wanted = m1[1]
     if m2 is None:
@@ -51,6 +62,15 @@ def move_aside(
 def calculate_moves(
     q1: Position, q2: Position, qubits: dict[int, Position]
 ) -> list[Position]:
+    """
+    Compute the movements needed to move a qubit in position q1 to a position
+    next to the qubit q2.
+
+    Parameters:
+    - q1: the position of the qubit to move.
+    - q2: the position of the qubit we want to reach.
+    - qubits: the physical positions of each qubit.
+    """
     positions = [q1]
     last = q1.clone()
     while last != q2:
@@ -82,6 +102,18 @@ def calculate_moves(
 
 
 def remove_useless_moves(instructions: list[QNAasm], idx: int) -> list[QNAasm]:
+    """
+    Remove moves that are doing the exact same opposite movements one after the
+    other.
+
+    For instance:
+        move {0,0} to {0,1}
+        move {0,1} to {0,0}
+
+    Parameters:
+    - instructions: the QNAasm instructions that need to be optimized.
+    - idx: the position of the first move that may be removed.
+    """
     current: Move = instructions[idx]
     next: Move = instructions[idx + 1]
 
@@ -92,6 +124,12 @@ def remove_useless_moves(instructions: list[QNAasm], idx: int) -> list[QNAasm]:
 
 
 def optimize(instructions: list[QNAasm]) -> list[QNAasm]:
+    """
+    Optimize moves inside the resulting QNAasm program.
+
+    Parameters:
+    - instructions: the QNAasm instructions that need to be optimized.
+    """
     idx = 0
     while idx < len(instructions):
         current = instructions[idx]
@@ -114,6 +152,13 @@ def optimize(instructions: list[QNAasm]) -> list[QNAasm]:
 
 
 def calculate_creg_size(c: Circuit) -> int:
+    """
+    Calculate the size required for the measurement classical register of the
+    whole circuit.
+
+    Parameters:
+    - c: the MimiQ circuit to translate to QNAasm.
+    """
     return (
         max(
             [
@@ -129,6 +174,13 @@ def calculate_creg_size(c: Circuit) -> int:
 def translate_instruction(
     instr: Instruction, qubits: dict[int, Position]
 ) -> Optional[list[QNAasm]]:
+    """
+    Translate a single MimiQ instruction to QNAasm.
+
+    Parameters:
+    - instr: the MimiQ instruction to translate.
+    - qubits: the physical positions of each qubit.
+    """
     instrs = []
 
     used_qubits = [(q, qubits[q]) for q in instr.get_qubits()]
@@ -191,10 +243,18 @@ def translate_instruction(
 
 
 def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
+    """
+    Translate a MimiQ circuit to a QNAasm program.
+
+    Parameters:
+    - c: the MimiQ circuit to translate.
+    - qubits: the physical positions of each qubit.
+    """
     instrs = []
 
     creg_size = calculate_creg_size(c)
     instrs.append(Calloc("c", creg_size))
+    # Used to reset a qubit when its measurement is not necessary.
     instrs.append(Calloc("drop", 1))
 
     for position in qubits.values():
