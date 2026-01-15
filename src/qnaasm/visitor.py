@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 class Visitor(ABC):
     """
-    Base class to represent to implement a visitor design pattern on QNAasm instructions.
+    Base class to implement a visitor design pattern on QNAasm instructions.
     """
 
     def visit_block(self, e: "Block"):
