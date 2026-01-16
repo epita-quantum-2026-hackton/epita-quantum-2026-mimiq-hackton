@@ -165,16 +165,16 @@ def calculate_creg_size(c: Circuit) -> int:
     Parameters:
     - c: the MimiQ circuit to translate to QNAasm.
     """
-    return (
-        max(
-            [
-                max(instr.get_bits())
-                for instr in c.instructions
-                if isinstance(instr.get_operation(), MimiqMeasure)
-            ]
-        )
-        + 1
-    )
+    max_bit_of_measures = [
+        max(instr.get_bits())
+        for instr in c.instructions
+        if isinstance(instr.get_operation(), MimiqMeasure)
+    ]
+
+    if not max_bit_of_measures:
+        return 0
+
+    return max(max_bit_of_measures) + 1
 
 
 def translate_instruction(
@@ -259,7 +259,8 @@ def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
     instrs = []
 
     creg_size = calculate_creg_size(c)
-    instrs.append(Calloc("c", creg_size))
+    if creg_size:
+        instrs.append(Calloc("c", creg_size))
     # Used to reset a qubit when its measurement is not necessary.
     instrs.append(Calloc("drop", 1))
 
