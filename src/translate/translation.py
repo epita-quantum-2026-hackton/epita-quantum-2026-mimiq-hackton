@@ -101,7 +101,9 @@ def calculate_moves(
     return moves
 
 
-def remove_useless_moves(instructions: list[QNAasm], idx: int) -> list[QNAasm]:
+def remove_useless_moves(
+    instructions: list[QNAasm], idx: int
+) -> tuple[list[QNAasm], int]:
     """
     Remove moves that are doing the exact same opposite movements one after the
     other.
