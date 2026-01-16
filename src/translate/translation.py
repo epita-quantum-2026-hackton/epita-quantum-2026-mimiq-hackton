@@ -120,6 +120,10 @@ def remove_useless_moves(
     next: Move = instructions[idx + 1]
 
     if current.start == next.end and current.end == next.start:
+        # We remove two successive moves that are the exact opposite, but, we
+        # cannot simply continue to next move: the previous move and the next
+        # one may be in opposition too now that they are not separated by the
+        # moves we just removed.
         return instructions[:idx] + instructions[idx + 2 :], max(0, idx - 1)
 
     return instructions, idx + 1
