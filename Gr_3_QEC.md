@@ -33,8 +33,8 @@ The **QEC** team was essentially in charge of the section "**3.3 Error Correctio
 
 **Available gates: H, X, Z, CX, SWAP, T, Measure.**
 
-**Note 1**: the T gate is probably **not stable**. It worked for our tests, but it is basically a T gate applied on the data qubit in the center of the surface code.
-**Note 2**: every gate must be single qubit (except CX) (for example, a Measure will be on qubit n and bit n, but not ranges of qubits like n:m to bits n:m).
+**Note 1**: the T gate is probably **not stable**. It worked for our tests, but it is basically a T gate applied on the data qubit in the center of the surface code.\
+**Note 2**: every gate must be single qubit (except CX) (for example, a Measure will be on qubit n and bit n, but not ranges of qubits like n:m to bits n:m).\
 **Note 3**: Noise is not available. To add noise, you must open the corrected circuit in another python / julia script, add noise, and resave the corrected circuit (as shown in [`src/qec/surface_code_3.ipynb`](src/qec/surface_code_3.ipynb), in `Test GHZ state with error`).
 
 ## Files
