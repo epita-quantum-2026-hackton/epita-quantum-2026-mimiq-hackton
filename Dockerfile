@@ -32,4 +32,6 @@ RUN julia -e ' \
 
 COPY --chown=mimiq:mimiq ./src ./src
 
+ENV PYTHONPATH=/home/mimiq/app/src
+
 EXPOSE 8888
