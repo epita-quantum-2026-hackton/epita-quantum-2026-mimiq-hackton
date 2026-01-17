@@ -1,0 +1,6 @@
+mimiqcircuits @ git+https://github.com/qperfect-io/mimiqcircuits-python.git
+julia
+jill
+ipython
+jupyter
+notebook
