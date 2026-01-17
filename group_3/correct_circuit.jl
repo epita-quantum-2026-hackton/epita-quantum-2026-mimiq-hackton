@@ -141,7 +141,7 @@ function add_surface_code_d3(c, data_qubits, ancillas, c_bits, metrics::QECMetri
 		push!(c, IfStatement(GateZ(), BitString("01110000")), [data_qubits[3], data_qubits[8]], c_bits[1:8]...)
 		push!(c, IfStatement(GateZ(), BitString("11110000")), [data_qubits[2], data_qubits[8]], c_bits[1:8]...)
 
-        metrics.physical_gates += 16
+        metrics.physical_gates += 15
 	end
 end
 
