@@ -374,7 +374,7 @@ end
 
 println("Creating file '$new_file'")
 
-println("\n================ QEC METRICS ================")
+println("\n================ QEC METRICS ===============")
 println("Logical qubits        : ", metrics.logical_qubits)
 println("Physical data qubits  : ", metrics.data_qubits)
 println("Ancilla qubits        : ", metrics.ancilla_qubits)
