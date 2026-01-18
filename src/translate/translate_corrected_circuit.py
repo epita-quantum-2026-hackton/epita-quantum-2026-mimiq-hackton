@@ -17,7 +17,7 @@ file = sys.argv[1]
 c = Circuit.loadproto(sys.argv[1])
 
 qubits = create_all_surface_code_mapping_for_circuit(c)
-print("======== Surface Code qubits mapping =======", file=sys.stderr)
+print("\n======== Surface Code qubits mapping =======", file=sys.stderr)
 for qubit, pos in qubits.items():
     print(f"  {qubit}: {pos}", file=sys.stderr)
 print("============================================", file=sys.stderr)
