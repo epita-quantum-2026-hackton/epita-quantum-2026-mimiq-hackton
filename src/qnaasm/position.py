@@ -29,6 +29,9 @@ class Position:
         """
         return f"{{{self.x},{self.y}}}"
 
+    def __hash__(self) -> int:
+        return self.x + self.y * 65536
+
     def clone(self) -> Self:
         """
         Return a copy of this position.
