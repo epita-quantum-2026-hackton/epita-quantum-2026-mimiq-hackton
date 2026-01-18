@@ -29,6 +29,7 @@ This document presents the **`qnaasm` module**, which defines the **QNAasm langu
     - [Qfree](#qfree)
     - [QNAasm](#qnaasm)
     - [Visitor](#visitor)
+- [Example](#example)
 
 
 
@@ -683,3 +684,9 @@ class Visitor(ABC):
     def visit_qalloc(self, e: "Qalloc"):
     def visit_qfree(self, e: "Qfree"):
 ```
+
+
+
+# Example
+
+An example can be found and run in the [`write_qnaasm_circuits.ipynb`](write_qnaasm_circuits.ipynb) notebook.
