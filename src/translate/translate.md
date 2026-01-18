@@ -13,6 +13,7 @@ This document presents the **`translate` module**, responsible for the **transla
 - [Implementation details](#implementation-details)
     - [Surface code mapping](#surface-code-mapping)
     - [Translation](#translation-1)
+- [Example](#example)
 
 
 
@@ -535,3 +536,10 @@ It returns the full list of QNAasm instructions (of type `list[QNAasm]`) after o
 ```python
 def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
 ```
+
+
+
+
+# Example
+
+An example can be found and run in the [`translate_a_mimiq_circuit_to_qnaasm.ipynb`](translate_a_mimiq_circuit_to_qnaasm.ipynb) notebook.
