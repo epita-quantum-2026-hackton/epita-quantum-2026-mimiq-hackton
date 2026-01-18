@@ -1,0 +1,7 @@
+# python
+__pycache__/
+.ipynb_checkpoints/
+
+# circuits
+circuits/*-corrected.pb
+circuits/*.qnaasm
