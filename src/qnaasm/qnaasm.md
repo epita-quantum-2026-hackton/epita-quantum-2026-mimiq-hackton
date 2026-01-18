@@ -4,6 +4,34 @@ QNAasm module
 This document presents the **`qnaasm` module**, which defines the **QNAasm language**.
 
 
+
+# Table of contents
+- [QNAasm language](#QNAasm-language)
+    - [Motivations](#motivations)
+    - [Core Instructions](#core-instructions)
+- [`qnaasm` module](#qnaasm-module-1)
+    - [Module architecture](#module-architecture)
+- [Design choices](#design-choices)
+    - [Visitor Design Pattern](#visitor-design-pattern)
+    - [QNAasm (Abstract Base Class)](#qnaasm-abstract-base-class)
+- [Implementation details](#implementation-details)
+    - [Block](#block)
+    - [Calloc](#calloc)
+    - [Classical Register](#classical-register)
+    - [Conditional](#conditional)
+    - [Gate](#gate)
+    - [Measure](#measure)
+    - [Move](#move)
+    - [Nodes](#nodes)
+    - [Position](#position)
+    - [Pretty Printer](#pretty-printer)
+    - [Qalloc](#qalloc)
+    - [Qfree](#qfree)
+    - [QNAasm](#qnaasm)
+    - [Visitor](#visitor)
+
+
+
 # QNAasm language
 
 The **QNAasm** or **Quantum Neutral Atom Assembly** language is the **target language** of the compiler.
@@ -221,6 +249,7 @@ qfree {0,0},{0,5}
 The name `qfree` is the quantum analogy to `free`.
 
 
+
 # `qnaasm` module
 
 The `qnaasm` module is responsible for the definition and implementation of the QNAasm language.
@@ -241,6 +270,7 @@ The architecture of the `qnaasm` module is the following:
 - `qfree.py`
 - `qnaasm.py`
 - `visitor.py`
+
 
 
 # Design choices
@@ -266,7 +296,7 @@ Every instruction inherits from `QNAasm` and implements the `accept(visitor)` me
 ## Block
 
 The `Block` class represents a **block of instructions**.  
-It is implemented in `block.py`.
+It is implemented in [`block.py`](block.py).
 
 A **block** stores a list of instructions and is commonly used within Conditional instructions.
 
@@ -292,7 +322,7 @@ class Block(QNAasm):
 ## Calloc
 
 The `Calloc` class represents a **calloc instruction**.  
-It is implemented in `calloc.py`.
+It is implemented in [`calloc.py`](calloc.py).
 
 A **calloc instruction** is a classical memory allocation instruction.
 It allocates a classical register with a given name and size.
@@ -318,10 +348,40 @@ class Calloc(QNAasm):
 ```
 
 
+## Classical Register
+The `ClassicalRegister` class represents a **classical register** or a **specific bit** within such a register.  
+It is implemented in [`classical_register.py`](classical_register.py).
+
+A **classical register** is used to store classical data.
+I may refer either to:
+- either an entire named register (`idx = None`) ;
+- or a specific indexed bit inside the register  (`idx` set to an integer). 
+
+### Structure
+
+```
+ClassicalRegister
+    name
+    idx
+```
+
+|Attribute|Type|Description|
+|-|-|-|
+|`name`|string|name of the register|
+|`idx`|integer or `None`|Optional index referring to a specific classical bit|
+
+### Class signature
+
+```python
+class ClassicalRegister:
+    def __init__(self, name: str, idx: Optional[int] = None):
+```
+
+
 ## Conditional
 
 The `Conditional` class represents a **conditional instruction**.  
-It is implemented in `conditional.py`.
+It is implemented in [`conditional.py`](conditional.py).
 
 A **conditional instruction** executes a quantum or classical instruction only if a classical register matches a given value.
 
@@ -350,7 +410,7 @@ class Conditional(QNAasm):
 ## Gate
 
 The `Gate` class represents a **gate instruction**.  
-It is implemented in `gate.py`.
+It is implemented in [`gate.py`](gate.py).
 
 A **gate instruction** applies a quantum gate to one or more qubits.  
 Targets are specified as positions in the neutral-atom grid.
@@ -379,7 +439,7 @@ class Gate(QNAasm):
 ## Measure
 
 The `Measure` class represents a **measure instruction**.  
-It is implemented in `measure.py`.
+It is implemented in [`measure.py`](measure.py).
 
 A **measure instruction** measures one or more qubits at given positions and stores the result in a classical register.
 
@@ -407,7 +467,7 @@ class Measure(QNAasm):
 ## Move
 
 The `Move` class represents a **move instruction**.  
-It is implemented in `move.py`.
+It is implemented in [`move.py`](move.py).
 
 A **move instruction** moves a qubit from one position to another in the neutral-atom array.  
 
@@ -434,7 +494,7 @@ class Move(QNAasm):
 
 ## Nodes
 
-The `nodes.py` file aggregates all instruction classes for easier imports.
+The [`nodes.py`](nodes.py) file aggregates all instruction classes for easier imports.
 
 ```python
 from qnaasm.nodes import (
@@ -451,10 +511,37 @@ from qnaasm.nodes import (
 ```
 
 
+## Position
+The `Position` class represents a **position** on the 2D atom-grid.  
+It is implemented in [`position.py`](position.py).
+
+A **position** is a pair of coordinate over the x and y axis on the 2D atom-grid. 
+
+### Structure
+
+```
+Position
+    x
+    y
+```
+
+|Attribute|Type|Description|
+|-|-|-|
+|`x`|integer|x-axis coordinate|
+|`y`|integer|y-axis coordinate|
+
+### Class signature
+
+```python
+class Position:
+    def __init__(self, x: int, y: int):
+```
+
+
 ## Pretty Printer
 
 The `PrettyPrinter` class implements a concrete Visitor that prints QNAasm programs in a human-readable format with indentation for nested structures.  
-It is implemented in `pretty_printer.py`.
+It is implemented in [`pretty_printer.py`](pretty_printer.py).
 
 ### Structure
 
@@ -478,7 +565,7 @@ class PrettyPrinter(Visitor):
 ## Qalloc
 
 The `Qalloc` class represents a **qalloc instruction**.  
-It is implemented in `qalloc.py`.
+It is implemented in [`qalloc.py`](qalloc.py).
 
 A **qalloc instruction** allocates a quantum resource (qubit) at a given position in the neutral-atom grid.
 
@@ -506,7 +593,7 @@ class Qalloc(QNAasm):
 ## Qfree
 
 The `Qfree` class represents a **qfree instruction**.  
-It is implemented in `qfree.py`.
+It is implemented in [`qfree.py`](qfree.py).
 
 A **qfree instruction** deallocates a quantum resource (qubit) at a given position in the neutral-atom grid.
 
@@ -532,7 +619,7 @@ class Qfree(QNAasm):
 ## QNAasm
 
 The `QNAasm` class is the **abstract base class** for all QNAasm instructions.  
-It is implemented in `qnaasm.py`.
+It is implemented in [`qnaasm.py`](qnaasm.py).
 
 Every instruction inherits from `QNAasm` and implements the `accept(visitor)` method to support the **Visitor pattern**.
 
@@ -559,7 +646,7 @@ class QNAasm(ABC):
 ## Visitor
 
 The `Visitor` class defines the interface for visiting QNAasm instructions.  
-It is implemented in `visitor.py`.
+It is implemented in [`visitor.py`](visitor.py).
 
 Visitors allow operations (like printing) to be applied without modifying instruction classes.
 
