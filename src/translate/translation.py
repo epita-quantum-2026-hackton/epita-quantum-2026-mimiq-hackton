@@ -61,7 +61,7 @@ def move_aside(
 
 def calculate_moves(
     q1: Position, q2: Position, qubits: dict[int, Position]
-) -> list[Position]:
+) -> list[tuple[Position, Position]]:
     """
     Compute the movements needed to move a qubit in position q1 to a position
     next to the qubit q2.
