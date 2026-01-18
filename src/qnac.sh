@@ -3,7 +3,7 @@
 INPUT_PB="$1"
 
 if [ -z "$INPUT_PB" ]; then
-  echo "Missing input protobuff file" 1>&2
+  echo Missing input protobuff file 1>&2
   exit 1
 fi
 
@@ -26,6 +26,6 @@ OUTPUT_QNAASM="${BASE}.qnaasm"
   julia src/qec/correct_circuit.jl "$INPUT_PB"
   echo -- Translating to QNAasm
   python src/translate/translate_corrected_circuit.py "$CORRECTED_PB" 1>"${OUTPUT_QNAASM}"
-  echo Compilation terminated
+  echo -- Compilation terminated
   echo Result stored inside "$OUTPUT_QNAASM"
 } 1>&2
