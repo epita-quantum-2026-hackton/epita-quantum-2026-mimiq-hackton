@@ -69,6 +69,8 @@ Its documentation file can be found at [`qnaasm/qnaasm.md`](src/qnaasm/qnaasm.md
 This module is responsible for the **translation** of **mimiQ** code to **QNAasm**.  
 Its documentation file can be found at [`translate/translate.md`](src/translate/translate.md).
 
+A jupyter notebook is available inside each module to try the different functions available.
+
 # Backend overview
 **Input**:
 -	Logical qubits encoded with surface codes
