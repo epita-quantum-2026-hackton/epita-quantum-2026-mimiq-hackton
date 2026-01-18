@@ -3,11 +3,11 @@ README of the group 4 "team **Backend**"
 
 This document presents the work of the **Backend** team, which is part of the class project.
 
-It presents the **members** of the team **Backend**, the parts of **specifications** they were responsible for and the **modules** finally written by the **Backend** team.
+It presents the **members** of the team **Backend**, the parts of **specifications** they were responsible for, the **modules** finally written by the **Backend** team and in the end a short **overview of the backend**.
 
 
 # Members
-The members of the Backend team are:
+The members of the **Backend team** are:
 - BRAVO Cyril
 - DERVAL Louis-Maël
 - ESPRIMONT Théo
@@ -60,17 +60,14 @@ Each module has its own documentation file (`module.md`, with `module` being the
 The **Backend** team worked on the following modules
 - `qnaasm`
 - `translate`
-- `utils`
-    * `classical_register.py`
-    * `position.py`
 
 ## `qnaasm`
-This module is responsible for the definition of the **QNAasm** language: **Quantum Neutral Atom Assembly language**.  
-Its documentation file can be found at `qnaasm/qnaasm.md`.
+This module is responsible for the **definition** of the **QNAasm** language: **Quantum Neutral Atom Assembly language**.  
+Its documentation file can be found at [`qnaasm/qnaasm.md`](src/qnaasm/qnaasm.md).
 
 ## `translate`
-This module is responsible for the translation of **mimiQ** code to **QNAasm**.  
-Its documentation file can be found at `translate/translate.md`.
+This module is responsible for the **translation** of **mimiQ** code to **QNAasm**.  
+Its documentation file can be found at [`translate/translate.md`](src/translate/translate.md).
 
 # Backend overview
 **Input**:
@@ -80,24 +77,3 @@ Its documentation file can be found at `translate/translate.md`.
 **Output**:
 -	Physical qubits, with their positions
 -	Gates on physical qubits
-
-# Illustration
-H gate:
-```
-				XA		
-	D8		D7		D6	
-ZA		XA		ZA		
-	D5		D4		D3	
-		ZA		XA		ZA
-	D2		D1		D0	
-		XA				
-```
-```
-				|XA	|	
-	|D8	|	|D7	|	|D6	|
-|ZA	|	|XA	|	|ZA	|	|
-	|D5	|	|D4	|	|D3	|
-	|	|ZA	|	|XA	|	|ZA |
-	|D2	|	|D1	|	|D0	|
-	|	|XA	|	|	|	|
-```
