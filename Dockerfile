@@ -30,8 +30,13 @@ RUN julia -e ' \
   Pkg.Registry.add(RegistrySpec(url="https://github.com/qperfect-io/QPerfectRegistry.git")); \
   Pkg.add(["IJulia", "MimiqCircuits"]);'
 
+COPY --chown=mimiq:mimiq ./docker ./docker
 COPY --chown=mimiq:mimiq ./src ./src
 
 ENV PYTHONPATH=/home/mimiq/app/src
 
 EXPOSE 8888
+
+VOLUME [ "/home/mimiq/app/circuits" ]
+
+ENTRYPOINT [ "bash", "/home/mimiq/app/docker/entrypoint.sh" ]
