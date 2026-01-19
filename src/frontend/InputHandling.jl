@@ -123,15 +123,15 @@ function main(input::String, output::String)
     # Check the circuit
     # =============================================================================
     # Load circuit
-    println("Loading circuit from '/src/circuits/$(input)'...")
-    circuit = loadproto("src/circuits/$(input)", Circuit)
+    println("Loading circuit from '$(input)'...")
+    circuit = loadproto("$(input)", Circuit)
 
     # Filter circuit
     filtered_circuit = InputHandling.filter(circuit)
 
     # Save filtered circuit
-    saveproto("src/circuits/$(output)", filtered_circuit)
-    println("Saving new circuit to '/src/circuits/$(output)'...")
+    saveproto("$(output)", filtered_circuit)
+    println("Saving new circuit to '$(output)'...")
 
     # =============================================================================
     # Print resulting circuit
