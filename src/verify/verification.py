@@ -8,7 +8,7 @@ def verify(instructions: list[QNAasm]) -> bool:
     Check that a QNAasm circuit can be executed in nearest neighbors.
 
     Parameters:
-    - instructions: all the instructions thaat compose the circuit.
+    - instructions: all the instructions that compose the circuit.
     """
     verifier = Verifier()
 
