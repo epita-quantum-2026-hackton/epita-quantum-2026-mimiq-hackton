@@ -1,0 +1,66 @@
+from mimiqcircuits import Circuit
+
+from qnaasm.position import Position
+
+from math import ceil, sqrt
+
+
+def create_surface_code_mapping(qubit: int, position: Position) -> dict[int, Position]:
+    """
+    Physically map a surface code for a given qubit to a specific position.
+
+    Parameters:
+    - qubit: the corresponding qubit in the inital MimiQ circuit.
+    - position: the position of the first qubit of the surface code.
+    """
+    return {
+        qubit: position.clone(),
+        qubit + 1: position.translated(-2, 0),
+        qubit + 2: position.translated(-4, 0),
+        qubit + 3: position.translated(0, 2),
+        qubit + 4: position.translated(-2, 2),
+        qubit + 5: position.translated(-4, 2),
+        qubit + 6: position.translated(0, 4),
+        qubit + 7: position.translated(-2, 4),
+        qubit + 8: position.translated(-4, 4),
+        qubit + 9: position.translated(-1, 1),
+        qubit + 10: position.translated(-3, 3),
+        qubit + 11: position.translated(-3, -1),
+        qubit + 12: position.translated(-1, 5),
+        qubit + 13: position.translated(-3, 1),
+        qubit + 14: position.translated(-1, 3),
+        qubit + 15: position.translated(1, 1),
+        qubit + 16: position.translated(-5, 3),
+    }
+
+
+def create_all_surface_code_mapping(qubits_count: int) -> dict[int, Position]:
+    """
+    Create a full surface code mapping for a specified number of qubits.
+
+    Parameters:
+    - qubits_count: the number of qubits inside the whole MimiQ circuit.
+    """
+    logical_qubits_count = qubits_count // 17
+    square_size = ceil(sqrt(logical_qubits_count))
+
+    res = {}
+    for qubit in range(logical_qubits_count):
+        col = qubit % square_size
+        row = qubit // square_size
+        res |= create_surface_code_mapping(
+            qubit * 17, Position(col * 8 + 6, row * 8 + 2)
+        )
+
+    return res
+
+
+def create_all_surface_code_mapping_for_circuit(c: Circuit) -> dict[int, Position]:
+    """
+    Create a full surface code mapping for a given MimiQ circuit.
+
+    Parameters:
+    - c: the MimiQ circuit on which we want to map surface codes to positions
+    on the QPU grid.
+    """
+    return create_all_surface_code_mapping(c.num_qubits())
