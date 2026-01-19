@@ -1,5 +1,5 @@
 # Load the module from src/frontend
-include(joinpath(@__DIR__, "InputHandling.jl"))
+include(joinpath(@__DIR__, "input_handling.jl"))
 using .InputHandling
 
 if length(ARGS) == 0
