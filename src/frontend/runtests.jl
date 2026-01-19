@@ -1,14 +1,14 @@
 using Test
 
 # Load the module from src/frontend
-include(joinpath(@__DIR__, "InputHandling.jl"))
+include(joinpath(@__DIR__, "input_handling.jl"))
 using .InputHandling
 
 struct MockGateN
     using Test
 
     using MimiqCircuits
-    include("./InputHandling.jl")
+    include("./input_handling.jl")
     using .InputHandling
 
     @testset "InputHandling (MIMIQ integration)" begin

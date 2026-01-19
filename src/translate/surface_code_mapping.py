@@ -49,7 +49,7 @@ def create_all_surface_code_mapping(qubits_count: int) -> dict[int, Position]:
         col = qubit % square_size
         row = qubit // square_size
         res |= create_surface_code_mapping(
-            qubit * 17, Position(col * 8 + 6, row * 8 + 6)
+            qubit * 17, Position(col * 8 + 6, row * 8 + 2)
         )
 
     return res
