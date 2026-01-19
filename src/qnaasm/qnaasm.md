@@ -689,4 +689,4 @@ class Visitor(ABC):
 
 # Example
 
-An example can be found and run in the [`write_qnaasm_circuits.ipynb`](write_qnaasm_circuits.ipynb) notebook.
+An example can be found and run in the [`write_qnaasm_circuits.ipynb`](../examples/write_qnaasm_circuits.ipynb) notebook.

@@ -152,4 +152,4 @@ def verify(instructions: list[QNAasm]) -> bool:
 
 # Example
 
-An example can be found and run in the [`verify_a_qnaasm_circuit.ipynb`](verify_a_qnaasm_circuit.ipynb) notebook.
+An example can be found and run in the [`verify_a_qnaasm_circuit.ipynb`](../examples/verify_a_qnaasm_circuit.ipynb) notebook.
