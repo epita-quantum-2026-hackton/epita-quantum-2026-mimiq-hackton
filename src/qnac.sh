@@ -8,7 +8,8 @@ if [ -z "$INPUT_PB" ]; then
 fi
 
 BASE="${INPUT_PB%.pb}"
-CORRECTED_PB="${BASE}-corrected.pb"
+FILTERED_PB="${BASE}-filtered.pb"
+CORRECTED_PB="${BASE}-filtered-corrected.pb"
 OUTPUT_QNAASM="${BASE}.qnaasm"
 
 {
@@ -22,8 +23,10 @@ OUTPUT_QNAASM="${BASE}.qnaasm"
     echo Invalid file name "$INPUT_PB"
     exit 2
   fi
+  echo -- Filtering gates
+  julia src/frontend/filter_circuit.jl "$INPUT_PB"
   echo -- Applying QEC
-  julia src/qec/correct_circuit.jl "$INPUT_PB"
+  julia src/qec/correct_circuit.jl "$FILTERED_PB"
   echo -- Translating to QNAasm
   python src/translate/translate_corrected_circuit.py "$CORRECTED_PB" 1>"${OUTPUT_QNAASM}"
   echo -- Compilation terminated
