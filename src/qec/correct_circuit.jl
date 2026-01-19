@@ -20,7 +20,7 @@ end
 if length(ARGS) == 0
 	# If no argument is provided, print a message
 	println("Usage: julia correct_circuit.jl circuit.pb")
-	exit()
+	exit(1)
 end
 
 # If the argument exists, get it
@@ -28,13 +28,13 @@ filename = ARGS[1]
 # Check if the filename ends with ".pb"
 if !endswith(filename, ".pb")
 	println("The file '$filename' does not end with '.pb'.")
-	exit()
+	exit(1)
 end
 
 # Check if the file exists
 if !isfile(filename)
 	println("The file '$filename' does not exist.")
-	exit()
+	exit(1)
 end
 
 new_file = "$(filename[1:end-3])-corrected.pb"
@@ -348,7 +348,7 @@ for i in 1:length(c)
 	index = is_in_list(typeof(op), available_gates)
 	if (index == 0)
 		println("Found an unsupported gate: '$op'. Exiting.")
-		exit()
+		exit(2)
 	end
 	# CX and SWAP gates are on several qubits
 	if (index == 4 || index == 5)

@@ -24,6 +24,8 @@ from qnaasm.nodes import (
 from qnaasm.classical_register import ClassicalRegister
 from qnaasm.position import Position
 
+import sys
+
 
 def move_aside(
     m1: tuple[Position, Position], m2: Optional[tuple[Position, Position]]
@@ -243,7 +245,8 @@ def translate_instruction(
             instrs.append(Move(p1, p2))
 
     else:
-        return None
+        print(f"Invalid instruction {instr}")
+        sys.exit(2)
 
     return instrs
 

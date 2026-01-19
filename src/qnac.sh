@@ -12,7 +12,8 @@ FILTERED_PB="${BASE}-filtered.pb"
 CORRECTED_PB="${BASE}-filtered-corrected.pb"
 OUTPUT_QNAASM="${BASE}.qnaasm"
 
-{
+if ! (
+  set -e
   echo QNA Compiler:
   echo -- Checking input
   if ! [ -f "$INPUT_PB" ]; then
@@ -31,4 +32,7 @@ OUTPUT_QNAASM="${BASE}.qnaasm"
   python src/translate/translate_corrected_circuit.py "$CORRECTED_PB" 1>"${OUTPUT_QNAASM}"
   echo -- Compilation terminated
   echo Result stored inside "$OUTPUT_QNAASM"
-} 1>&2
+)
+then
+  echo -- Compilation failed
+fi 1>&2

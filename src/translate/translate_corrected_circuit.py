@@ -34,6 +34,7 @@ if verify(instructions):
 
 else:
     print("-> Circuit is not valid", file=sys.stderr)
+    sys.exit(2)
 
 printer = PrettyPrinter()
 
