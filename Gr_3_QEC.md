@@ -12,7 +12,7 @@ All parts of the code in this team are written in **Julia**.
 - DIAMANT Arnaud [arnaud.diamant@epita.fr](mailto:arnaud.diamant@epita.fr)
 - DJERMOUNE Kylian [kylian.djermoune@epita.fr](mailto:kylian.djermoune@epita.fr)
 - FLORION Thomas [thomas.florion@epita.frr](mailto:thomas.florion@epita.fr)
-- HAY--KERGROHENN [quentin.hay-kergrohenn@epita.fr](mailto:quentin.hay-kergrohenn@epita.fr)
+- HAY--KERGROHENN Quentin [quentin.hay-kergrohenn@epita.fr](mailto:quentin.hay-kergrohenn@epita.fr)
 - NAJI Hamza [hamza.naji@epita.fr](mailto:hamza.naji@epita.fr)
 
 ## Specifications
