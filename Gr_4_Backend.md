@@ -70,13 +70,12 @@ Finally, we want to generate hardware instructions in an easy to read and parse 
 
 Each module has its own documentation file (`module.md`, with `module` being the name of the module). Please refer to them for more detail.
 
-The **Backend** team worked on the following modules
+The **Backend** team worked on the following modules:
 - `qnaasm`
 - `translate`
 - `verify`
 
-A jupyter notebook is available inside each module to try the different functions available.
-
+Jupyter notebooks are available inside `examples` folder to try the different functions available.
 
 ## `qnaasm`
 

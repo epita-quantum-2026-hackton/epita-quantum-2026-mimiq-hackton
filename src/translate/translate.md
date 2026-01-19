@@ -543,4 +543,4 @@ def translate(c: Circuit, qubits: dict[int, Position]) -> list[QNAasm]:
 
 # Example
 
-An example can be found and run in the [`translate_a_mimiq_circuit_to_qnaasm.ipynb`](translate_a_mimiq_circuit_to_qnaasm.ipynb) notebook.
+An example can be found and run in the [`translate_a_mimiq_circuit_to_qnaasm.ipynb`](../examples/translate_a_mimiq_circuit_to_qnaasm.ipynb) notebook.
