@@ -112,24 +112,32 @@ function check_gate_size(c::MimiqCircuits.Circuit)
 end
 
 function filter(circuit::MimiqCircuits.Circuit)
-    try
-        parallel_san_c = sanitize_parallel(circuit)
-        check_gate_size(parallel_san_c)
-        typed_c = check_gate_type(parallel_san_c)
-        return typed_c
-    catch
-        throw(InputError("Unsupported gate at instruction: gate acts on qubits (max 2)."))
-    end
+    parallel_san_c = sanitize_parallel(circuit)
+    check_gate_size(parallel_san_c)
+    typed_c = check_gate_type(parallel_san_c)
+    return typed_c
 end
 
-function filter_and_save(circuit::MimiqCircuits.Circuit)
-    try
-        filtered = filter(circuit)
-        saveproto("input_clean.pb", filtered)
-        return true
-    catch
-        throw(InputError("Unexpected error while filtering and saving circuit."))
-    end
+function main(input::String, output::String)
+    # =============================================================================
+    # Check the circuit
+    # =============================================================================
+    # Load circuit
+    println("Loading circuit from '/src/circuits/$(input)'...")
+    circuit = loadproto("src/circuits/$(input)", Circuit)
+
+    # Filter circuit
+    filtered_circuit = InputHandling.filter(circuit)
+
+    # Save filtered circuit
+    saveproto("src/circuits/$(output)", filtered_circuit)
+    println("Saving new circuit to '/src/circuits/$(output)'...")
+
+    # =============================================================================
+    # Print resulting circuit
+    # =============================================================================
+    println("Filtered circuit:\n")
+    draw(filtered_circuit)
 end
 
 end # module

@@ -1,14 +1,14 @@
 using Test
 
-# Load the module from src
-include(joinpath(@__DIR__, "..", "src", "InputHandling.jl"))
+# Load the module from src/frontend
+include(joinpath(@__DIR__, "InputHandling.jl"))
 using .InputHandling
 
 struct MockGateN
     using Test
 
     using MimiqCircuits
-    include("../src/InputHandling.jl")
+    include("./InputHandling.jl")
     using .InputHandling
 
     @testset "InputHandling (MIMIQ integration)" begin
@@ -88,13 +88,5 @@ struct MockGateN
         # Empty circuit is valid
         c4 = MimiqCircuits.Circuit()
         @test InputHandling.check_gate_size(c4) == true
-
-        # Empty circuit is valid
-        c_save = MimiqCircuits.Circuit()
-        push!(c_save, MimiqCircuits.Instruction(MimiqCircuits.GateCY(), 1, 2))
-        @test InputHandling.filter_and_save(c_save) == true
-
-        c = loadproto("input_clean.pb", MimiqCircuits.Circuit)
-        draw(c)
     end
 end
