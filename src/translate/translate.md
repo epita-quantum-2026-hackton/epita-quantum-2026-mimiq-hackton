@@ -136,7 +136,7 @@ This forms the **epilogue section** of the QNAasm program.
 
 The last stage is the program optimization.
 
-For the MimiQ compiler, we **optimize the `move`s**, by removing adjacent moves that cancel each other.
+For the MimiQ compiler, we **optimize the moves**, by removing adjacent moves that cancel each other.
 
 
 # `translate` module
@@ -300,7 +300,7 @@ It simply applies `create_all_surface_code_mapping` for the number of qubits of 
 
 #### Returned Value
 
-It returns a `dict[int, Position]` giving the physical position of all qubits on the circuit`.
+It returns a `dict[int, Position]` giving the physical position of all qubits on the circuit.
 
 
 #### Function signature
@@ -316,7 +316,7 @@ We present here the code implemented in [`translation.py`](translation.py).
 
 
 This file **lowers** a **MimiQ** `Circuit` to **QNAasm**.  
-It allocates the necessary classical/quantum resources translates each instruction then frees resources and runs a local peephole optimization on moves. 
+It allocates the necessary classical/quantum resources translates each instruction then frees resources and runs a local peephole optimization on moves.  
 Input: a MimiQ circuit and a **physical mapping** `dict[int, Position]`.  
 Output: a list of QNAasm node.
 
@@ -475,14 +475,15 @@ def calculate_creg_size(c: Circuit) -> int:
 
 #### Description
 
-The `translate_instruction` function translates a single MimiQ instruction into one or more QNAasm instructions.
+The `translate_instruction` function lowers a single MimiQ instruction to one or more QNAasm instructions.
 
-The `translate_instruction` function lowers a single MimiQ instruction to one or more QNAasm instructions. Its behavior depends on the instruction type:
+Its behavior depends on the instruction type:
 * 1-qubit gates: `Gate(name, [pos])`
 * 2-qubit gates: routing with `Move` segments, then the gate, then reverse moves
 * `Measure`: `Measure([...], ClassicalRegister("c", bit))`  
 * `Reset`: `Measure` + `Qfree` + `Qalloc`  
-* `IfStatement`: nested `Conditional`, wrapping multiple instructions inside a `Block`  
+* `IfStatement`: nested `Conditional`, wrapping multiple instructions inside a `Block`
+
 If the operation has unsupported arity ($> 2$), the translator aborts translation and returns `None`.
 
 #### Function parameters
@@ -511,7 +512,7 @@ def translate_instruction(
 
 The `translate` function **translates** a MimiQ circuit to a QNAasm program.
 
-The `translate` function orchestrates the full translation pipeline:  
+It orchestrates the full translation pipeline:  
 1. allocate the measurement register `c` and the temporary `drop` register,
 2. allocate all physical qubits (`Qalloc`),
 3. translate each MimiQ instruction via `translate_instruction`,
